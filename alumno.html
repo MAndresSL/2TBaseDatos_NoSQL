@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Auto Escuela</title>
+    <title>Alumno</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
@@ -14,7 +14,6 @@
     <!--Bootsrap CDN-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
         crossorigin="anonymous">
-
 </head>
 
 <body>
@@ -59,20 +58,40 @@
         </div>
     </nav>
     <!--End NavBar-->
-
-    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyCRNvIRG2ddROhFpBBqvcVNTtKkrhfTwmc",
-            authDomain: "basenosql-fd92c.firebaseapp.com",
-            databaseURL: "https://basenosql-fd92c.firebaseio.com",
-            projectId: "basenosql-fd92c",
-            storageBucket: "basenosql-fd92c.appspot.com",
-            messagingSenderId: "49462684804"
-        };
-        firebase.initializeApp(config);
-    </script>
+    <!--Begin Jumbotron-->
+    <div class="jumbotron">
+        <h1 class="display-4">Alumno</h1>
+        <p class="lead">Agregar Alumno</p>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <p>Nombre</p>
+                <p>Apellido</p>
+                <p>DNI</p>
+                <p>Dirección</p>
+                <p>Teléfono</p>
+            </div>
+            <div class="col">
+                <input type="text" id="nombre">
+                <br>
+                <br>
+                <input type="text" id="apellido">
+                <br>
+                <br>
+                <input type="text" id="dni">
+                <br>
+                <br>
+                <input type="text" id="direccion">
+                <br>
+                <br>
+                <input type="text" id="telefono">
+                <br>
+                <br>
+                <a class="btn btn-primary btn-lg" href="#" role="button">Agregar</a>
+            </div>
+        </div>
+    </div>
+    <!--End Jumbotron-->
 
     <!--Bootsrap-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
