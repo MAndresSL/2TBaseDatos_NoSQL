@@ -1,0 +1,43 @@
+[debug] [2018-06-04T05:13:24.775Z] ----------------------------------------------------------------------
+[debug] [2018-06-04T05:13:24.777Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-06-04T05:13:24.777Z] CLI Version:   3.18.5
+[debug] [2018-06-04T05:13:24.777Z] Platform:      darwin
+[debug] [2018-06-04T05:13:24.777Z] Node Version:  v10.1.0
+[debug] [2018-06-04T05:13:24.778Z] Time:          Sun Jun 03 2018 23:13:24 GMT-0600 (CST)
+[debug] [2018-06-04T05:13:24.778Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-06-04T05:13:24.793Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-06-04T05:13:24.795Z] > authorizing via signed-in user
+[debug] [2018-06-04T05:13:24.798Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-06-04T05:13:24.799Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/lscNFJACfWgvZzZFn4NpTJYyw2w34yhSeI0RDEJqxtA',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sun Jun 03 2018 23:13:24 GMT-0600 (CST)
+[debug] [2018-06-04T05:13:25.192Z] <<< HTTP RESPONSE 200
+[debug] [2018-06-04T05:13:25.206Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/basenosql-fd92c  
+  
+ Sun Jun 03 2018 23:13:25 GMT-0600 (CST)
+[debug] [2018-06-04T05:13:25.815Z] <<< HTTP RESPONSE 200
+[debug] [2018-06-04T05:13:25.819Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/basenosql-fd92c/tokens  
+  
+ Sun Jun 03 2018 23:13:25 GMT-0600 (CST)
+[debug] [2018-06-04T05:13:26.267Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'basenosql-fd92c'...
+[info] 
+[info] i  deploying database, storage, firestore, functions, hosting
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] ✔  functions: Finished running predeploy script.
+[info] i  database: checking rules syntax...
+[debug] [2018-06-04T05:13:31.006Z] >>> HTTP REQUEST PUT https://basenosql-fd92c.firebaseio.com/.settings/rules.json?dryRun=true  
+ {
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+ 
+ Sun Jun 03 2018 23:13:31 GMT-0600 (CST)
