@@ -10,3 +10,11 @@
 #inputAdd {
     margin-left: 10%;
 }
+
+* {
+    font-family: Montserrat;
+}
+
+h1 {
+    font-weight: 800;
+}
