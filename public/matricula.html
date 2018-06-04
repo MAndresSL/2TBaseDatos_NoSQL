@@ -46,7 +46,7 @@
                         <a class="dropdown-item" href="alumno.html">Alumno</a>
                         <a class="dropdown-item" href="matricula.html">Matricula</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Que mierdas va aqui</a>
+                        <a class="dropdown-item" href="#">¿Qué va aquí?</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -67,17 +67,11 @@
         <hr class="my-4">
         <div id="inputAdd">
             <div class="row">
-                <div class="col-4">Nombre</div>
-                <div class="col-4">
-                    <input type="text" id="nombre">
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-4">Alumno</div>
                 <div class="col-4">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false" onclick="load()" id="nombresAlumnos">
+                            aria-expanded="false" onclick="load()">
                             Dropdown button
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="setNombres" onclick="change">
@@ -119,7 +113,7 @@
             var nombre = document.getElementById("cambio").value;
             console.log("este es nombre: " + nombre);
             
-            document.getElementById("nombresAlumnos").innerHTML = nombre;
+            document.getElementById("dropdownMenuButton").innerHTML = nombre;
         }
     </script>
     <!--Carga los nombres al dropdown-->
@@ -141,27 +135,22 @@
     </script>
 
     <script>
-        var alumno = document.getElementById("nombre");
-        var fecha = document.getElementById("apellido");
-        var costo = document.getElementById("dni");
+        var alumno = document.getElementById("dropdownMenuButton");
+        var fecha = document.getElementById("fecha");
+        var costo = document.getElementById("costo");
         var tipo = document.getElementById("tipo");
 
         function submit() {
-            var ref = firebase.database().ref().child("Alumnos");
-
+            var ref = firebase.database().ref().child("Matricula");
             var key = ref.push().getKey();
             console.log(key);
 
             ref.child(key).set({
-                nombre: nom.value,
-                apellido: apell.value,
-                dni: dni.value,
-                direccion: dir.value,
-                telefono: tel.value,
-                llave: key,
-                examen_teorico: "false",
-                numero_pagos: 0,
-                clases_matriculadas: " "
+                matriculaID: key,
+                alumno: alumno.value,
+                fecha: fecha.value,
+                costo: costo.value,
+                tipo_licencia: tipo,
             });
         }
 
