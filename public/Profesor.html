@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Profesor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
+
+    <script src="config.js"></script>
+    <!--Style.css-->
+    <link rel="stylesheet" href="style.css">
+    <!--Bootsrap CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <!--Begin NavBar-->
+    <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" style="font-weight: 600" href="#">A U T O – E S C U E L A</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Agregar
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="alumno.html">Alumno</a>
+                        <a class="dropdown-item" href="Profesor.html">Profesor</a>
+                        <a class="dropdown-item" href="#">ENTIDADES</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Que mierdas va aqui</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <!--End NavBar-->
+    <!--Begin Jumbotron-->
+    <div class="jumbotron">
+        <h1 class="display-4" style="font-weight: 800">Profesor</h1>
+        <p class="lead">Agregar Profesor</p>
+        <hr class="my-4">
+        <div id="inputAdd">
+            <div class="row">
+                <div class="col-4">Nombre</div>
+                <div class="col-4">
+                    <input type="text" id="nombreProfesor">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Apellido</div>
+                <div class="col-4">
+                    <input type="text" id="apellidoProfesor">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">DNI</div>
+                <div class="col-4">
+                    <input type="text" id="dniProfesor">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Direccion</div>
+                <div class="col-4">
+                    <input type="text" id="direccionProfesor">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Telefono</div>
+                <div class="col-4">
+                    <input type="text" id="telefonoProfesor">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Tipo de Licencia</div>
+                <div class="col-4">
+                    <input type="text" id="LicenciaProfesor">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Asignar Vehiculos</div>
+                <div class="dropdown">
+                    <button id="VehiculoProfesor" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Vehiculos
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Honda</a></li>
+                      <li><a href="#">Toyota</a></li>
+                      <li><a href="#">Nissan</a></li>
+                    </ul>
+                </div>    
+            </div>
+            
+            <div class="row">
+                <div class="col-4">Asignar Clases</div>
+                <div class="dropdown">
+                    <button id="ClasesProfesor"class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Clases   
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Licencia Liviana</a></li>
+                      <li><a href="#">Licencia Mediana</a></li>
+                      <li><a href="#">Licencia Pesada</a></li>
+                    </ul>
+                  </div>    
+            </div>
+            
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-outline-dark" onclick="submit()">AGREGAR</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        var nom = document.getElementById("nombreProfesor");
+        var apell = document.getElementById("apellidoProfesor");
+        var dni = document.getElementById("dniProfesor");
+        var dir = document.getElementById("direccionProfesor");
+        var tel = document.getElementById("telefonoProfesor");
+        var lic = document.getElementById("LicenciaProfesor");
+        var vehi = document.getElementById("VehiculoProfesor");
+        var ClasesA = document.getElementById("ClasesProfesor");
+        
+        
+
+        function submit() {
+            var ref = firebase.database().ref().child("Profesores");
+
+            var key = ref.push().getKey();
+            console.log(key);
+
+            ref.child(key).set({
+                nombre: nom.value,
+                apellido: apell.value,
+                dni: dni.value,
+                direccion: dir.value,
+                telefono: tel.value,
+                licencia: lic.value,
+                idProfesor: key,
+                //vehiculo: vehi.value,
+                //clases: ClasesA.value,
+                
+                });
+        }
+
+
+    </script>
+
+    <!--End Jumbotron-->
+
+    <!--Bootsrap-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
