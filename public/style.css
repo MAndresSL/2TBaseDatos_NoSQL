@@ -2,3 +2,11 @@
 #navBar{
     background: linear-gradient(to right, #c04848, #480048);
 }
+
+.row {
+    margin: 40px;
+}
+
+#inputAdd {
+    margin-left: 10%;
+}
