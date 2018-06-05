@@ -18,7 +18,7 @@
         crossorigin="anonymous">
 </head>
 
-<body>
+<body onload="loadProfesor()">
     <!--Begin NavBar-->
     <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" style="font-weight: 600" href="#">A U T O – E S C U E L A</a>
@@ -103,15 +103,16 @@
                         </div>
                     </div> -->
 
-                    <select class="custom-select" onclick="loadProfesor()">
-                        <option selected>Eliga Profesor</option>
-                        <option value='1'>One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <div id="setProfesores">
-                        </div>
-                    </select>
+                    <select class="custom-select" id="selectProfesores">
 
+                        <option selected>Eliga Profesor</option>
+
+
+                    </select>
+                    <script>
+                        console.log("hola0");
+                        console.log(selectProfesores.value);
+                    </script>
                 </div>
             </div>
             <div class="row">
@@ -132,21 +133,35 @@
         var profesor = document.getElementById("profesor");
 
         function loadProfesor() {
-            //document.getElementById("setProfesores").innerHTML = "";
+            document.getElementById("selectProfesores").innerHTML = "";
             var ref = firebase.database().ref().child("Profesores");
             var nombre;
             var k = 5;
+            var nombres = [];
+            var ids = [];
+
             ref.on('value', function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     nombre = childSnapshot.child("nombre").val();
-                    console.log(k);
-                    var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    idProf = childSnapshot.child("idProfesor").val();
+                    nombres.push(nombre);
+                    ids.push(idProf);
+                    var content = document.createElement("option");
+                    // var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    var t = document.createTextNode(nombre);
+                    content.appendChild(t);
                     console.log(content);
                     k = k + 1;
-                    $("#setProfesores").append(content);
+                    //$("#setProfesores").append(content);
+                    document.getElementById("selectProfesores").appendChild(content);
+
+
+
                 });
 
             })
+            console.log(nombres);
+            console.log(ids);
 
         }
 
