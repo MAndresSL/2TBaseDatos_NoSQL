@@ -109,10 +109,7 @@
 
 
                     </select>
-                    <script>
-                        console.log("hola0");
-                        console.log(selectProfesores.value);
-                    </script>
+
                 </div>
             </div>
             <div class="row">
@@ -131,14 +128,17 @@
         var lujo = document.getElementById("lujo");
         var licencia = document.getElementById("tipo-licencia");
         var profesor = document.getElementById("profesor");
+        var selProf =  document.getElementById("selectProfesores");
+
+        var nombres = [];
+        var ids = [];
 
         function loadProfesor() {
-            document.getElementById("selectProfesores").innerHTML = "";
+            selProf.innerHTML = "";
             var ref = firebase.database().ref().child("Profesores");
             var nombre;
             var k = 5;
-            var nombres = [];
-            var ids = [];
+
 
             ref.on('value', function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
@@ -153,9 +153,7 @@
                     console.log(content);
                     k = k + 1;
                     //$("#setProfesores").append(content);
-                    document.getElementById("selectProfesores").appendChild(content);
-
-
+                    selProf.appendChild(content);
 
                 });
 
@@ -171,13 +169,20 @@
             var key = ref.push().getKey();
             console.log(key);
 
+            console.log("Profesores: "+ selProf.selectedIndex);
             ref.child(key).set({
                 marca: marca.value,
                 modelo: modelo.value,
                 lujo: lujo.value,
                 tipo_licencia: licencia.value,
-                profesor: profesor.value,
+                //profesor: profesor.value,
                 idVehiculo: key
+            });
+
+            ref.child(key).child("Profesor").set({
+                nombre: selProf.value,
+                idProfesor: ids[selProf.selectedIndex]
+                
             });
         }
     </script>
