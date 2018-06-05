@@ -115,6 +115,7 @@
                 <tbody>
                     <script>
                         function loadTable() {
+                            //$("#tabla").remove();
                             document.getElementById("tabla").innerHTML = "";
                             var ref = firebase.database().ref().child("Matricula");
                             var IDmatricula;
@@ -126,7 +127,7 @@
                                 snapshot.forEach(function (childSnapshot) {
                                     iteration++;
                                     IDmatricula = childSnapshot.child("matriculaID").val()
-                                    alumno = childSnapshot.child("alumno").val()
+                                    alumno = childSnapshot.child("Alumno").child("nombre").val()
                                     fecha = childSnapshot.child("fecha").val()
                                     costo = childSnapshot.child("costo").val()
                                     console.log(IDmatricula);
