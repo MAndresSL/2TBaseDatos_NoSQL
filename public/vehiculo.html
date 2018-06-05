@@ -93,6 +93,7 @@
             <div class="row">
                 <div class="col-4">Profesor</div>
                 <div class="col-4">
+                    <!--
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false" onclick="loadProfesor()">
@@ -100,7 +101,17 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="setProfesores">
                         </div>
-                    </div>
+                    </div> -->
+
+                    <select class="custom-select" onclick="loadProfesor()">
+                        <option selected>Eliga Profesor</option>
+                        <option value='1'>One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        <div id="setProfesores">
+                        </div>
+                    </select>
+
                 </div>
             </div>
             <div class="row">
@@ -121,14 +132,17 @@
         var profesor = document.getElementById("profesor");
 
         function loadProfesor() {
-            document.getElementById("setProfesores").innerHTML = "";
+            //document.getElementById("setProfesores").innerHTML = "";
             var ref = firebase.database().ref().child("Profesores");
             var nombre;
+            var k = 5;
             ref.on('value', function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     nombre = childSnapshot.child("nombre").val();
-                    console.log(nombre);
-                    var content = "<p>" + nombre + "</p>";
+                    console.log(k);
+                    var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    console.log(content);
+                    k = k + 1;
                     $("#setProfesores").append(content);
                 });
 
