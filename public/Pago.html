@@ -18,7 +18,7 @@
         crossorigin="anonymous">
 </head>
 
-<body onload="loadAlumno(); loadMatricula()">
+<body onload="loadAlumno(); loadMatricula(); loadTable()">
     <!--Begin NavBar-->
     <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" style="font-weight: 600" href="index.html">A U T O – E S C U E L A</a>
@@ -92,6 +92,42 @@
             </div>
 
         </div>
+    </div>
+    <div class="container">
+        <table class="table" id="tabla">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID Matricula</th>
+                    <th scope="col">Alumno</th>
+                </tr>
+            </thead>
+            <tbody>
+                <script>
+                    function loadTable() {
+                        //document.getElementById("setNombres").innerHTML = "";
+                        var ref = firebase.database().ref().child("Pagos");
+                        var IDmatricula;
+                        var alumno;
+                        var iteration = 0;
+                        ref.on('value', function (snapshot) {
+                            snapshot.forEach(function (childSnapshot) {
+                                iteration++;
+                                IDmatricula = childSnapshot.child("matriculaID").val()
+                                alumno = childSnapshot.child("alumno").val()
+                                console.log(IDmatricula);
+                                var content = "<tr><th scope='row'>" + iteration + "</th>" +
+                                    "<td>" + IDmatricula + "</td>" +
+                                    "<td>" + alumno + "</td>" +
+                                    "</tr>";
+                                $("#tabla").append(content);
+                            });
+
+                        })
+                    }
+                </script>
+            </tbody>
+        </table>
     </div>
 
     <script>
