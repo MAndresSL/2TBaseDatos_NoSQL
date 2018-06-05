@@ -18,10 +18,10 @@
         crossorigin="anonymous">
 </head>
 
-<body>
+<body onload="loadAlumno(); loadProfesor()">
     <!--Begin NavBar-->
     <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" style="font-weight: 600" href="#">A U T O – E S C U E L A</a>
+        <a class="navbar-brand" style="font-weight: 600" href="index.html">A U T O – E S C U E L A</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,35 +29,34 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="alumno.html">Alumnos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="Profesor.html">Profesores</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item">
+                    <a class="nav-link" href="vehiculo.html">Vehiculos</a>
+                </li>
+                <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
-                        Agregar
+                        Clases
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="alumno.html">Alumno</a>
-                        <a class="dropdown-item" href="#">ENTIDADES</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Que mierdas va aqui</a>
+                        <a class="dropdown-item" href="clase-practica.html">Practicas</a>
+                        <a class="dropdown-item" href="clase-teorica.html">Teoricas</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <a class="nav-link" href="examen.html">Examen</a>
                 </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="Pago.html">Pagos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="matricula.html">Matricula</a>
+                </li>
     </nav>
     <!--End NavBar-->
     <!--Begin Jumbotron-->
@@ -69,19 +68,23 @@
             <div class="row">
                 <div class="col-4">Alumno</div>
                 <div class="col-4">
-                    <input type="text" id="alumno">
+                    <select class="custom-select" id="selectAlumnos">
+                        <option selected>Eliga Alumno</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-4">Profesor</div>
                 <div class="col-4">
-                    <input type="text" id="profesor">
+                    <select class="custom-select" id="selectProfesores">
+                        <option selected>Eliga Profesor</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-4">Fecha</div>
                 <div class="col-4">
-                    <input type="text" id="fecha">
+                    <input type="text" id="fecha" placeholder="MM/DD/YYYY">
                 </div>
             </div>
             <div class="row">
@@ -105,6 +108,65 @@
         var prof = document.getElementById("profesor");
         var fecha = document.getElementById("fecha");
         var cost = document.getElementById("costo-clase");
+        var selProf = document.getElementById("selectProfesores");
+        var selAlum = document.getElementById("selectAlumnos");
+
+        var nombres = [];
+        var idsProfesor = [];
+        var idsAlumno = [];
+
+        function loadProfesor() {
+            selProf.innerHTML = "";
+            var ref = firebase.database().ref().child("Profesores");
+            var nombre;
+
+            ref.on('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    nombre = childSnapshot.child("nombre").val();
+                    apell = childSnapshot.child("apellido").val();
+                    idProf = childSnapshot.child("idProfesor").val();
+                    nombres.push(nombre);
+                    idsProfesor.push(idProf);
+                    var content = document.createElement("option");
+                    // var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    var t = document.createTextNode(nombre + " " + apell);
+                    content.appendChild(t);
+                    console.log(content);
+                    //$("#setProfesores").append(content);
+                    selProf.appendChild(content);
+                });
+
+            })
+            console.log(nombres);
+            console.log(idsProfesor);
+
+        }
+
+        function loadAlumno() {
+            selAlum.innerHTML = "";
+            var ref = firebase.database().ref().child("Alumnos");
+            var nombre;
+
+            ref.on('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    nombre = childSnapshot.child("nombre").val();
+                    apell = childSnapshot.child("apellido").val();
+                    idAlum = childSnapshot.child("idAlumno").val();
+                    //nombres.push(nombre);
+                    idsAlumno.push(idAlum);
+                    var content = document.createElement("option");
+                    // var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    var t = document.createTextNode(nombre + " " + apell);
+                    content.appendChild(t);
+                    console.log(content);
+                    //$("#setProfesores").append(content);
+                    selAlum.appendChild(content);
+
+                });
+
+            })
+            console.log(idsAlumno);
+        }
 
         function submit() {
             var ref = firebase.database().ref().child("Clase Teorica");
@@ -118,6 +180,17 @@
                 fecha: fecha.value,
                 costo_clase: cost.value,
                 idClaseTeorica: key
+            });
+
+            ref.child(key).child("Profesor").set({
+                nombre: selProf.value,
+                idProfesor: idsProfesor[selProf.selectedIndex]
+
+            });
+
+            ref.child(key).child("Alumno").set({
+                nombre: selAlum.value,
+                idAlumno: idsAlumno[selAlum.selectedIndex]
             });
         }
 
