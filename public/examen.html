@@ -149,6 +149,7 @@
                         var profe;
                         var iteration = 0;
                         ref.on('value', function (snapshot) {
+                            $("#tabla tbody tr").remove();
                             snapshot.forEach(function (childSnapshot) {
                                 iteration++;
                                 IDmatricula = childSnapshot.child("matriculaID").val()
@@ -168,7 +169,7 @@
                                     "</tr>";
                                 $("#tabla").append(content);
                             });
-
+                            iteration = 0;
                         })
                     }
                 </script>
