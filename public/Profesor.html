@@ -18,7 +18,7 @@
         crossorigin="anonymous">
 </head>
 
-<body onload="loadVehiculo()">
+<body onload="loadVehiculo();loadTable()">
     <!--Begin NavBar-->
     <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" style="font-weight: 600" href="index.html">A U T O – E S C U E L A</a>
@@ -120,7 +120,70 @@
 
         </div>
     </div>
+    <div class="container">
+        <table class="table" id="tabla">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Licencia</th>
+                    <th scope="col">Vehículo</th>
+                    <th scope="col">Direccion</th>
+                </tr>
+            </thead>
+            <script>
+                function loadTable() {
 
+                    var ref = firebase.database().ref().child("Profesores");
+                    var apellido;
+                    var licencia;
+                    var direccion;
+                    var dni;
+                    var idProfesor;
+                    var nombre;
+                    var vehiculo;
+                    var telefono;
+                    var iteration = 0;
+
+                    ref.on('value', function (snapshot) {
+                        $("#tabla tbody tr").remove();
+                        snapshot.forEach(function (childSnapshot) {
+                            iteration++;
+                            vehiculo = childSnapshot.child("Vehiculo").child("idVehiculo").val();
+                            console.log(vehiculo+"+++++++");
+                            apellido = childSnapshot.child("apellido").val();
+                            direccion = childSnapshot.child("direccion").val();
+                            dni = childSnapshot.child("dni").val();
+                            idProfesor = childSnapshot.child("idProfesor").val();
+                            nombre = childSnapshot.child("nombre").val();
+                            telefono = childSnapshot.child("telefono").val();
+                            licencia = childSnapshot.child("licencia").val();
+                            var content =
+                                "<tbody>" +
+                                "<tr><th scope='row'>" + iteration + "</th>" +
+                                "<td>" + idProfesor + "</td>" +
+                                "<td>" + nombre + "</td>" +
+                                "<td>" + apellido + "</td>" +
+                                "<td>" + dni + "</td>" +
+                                "<td>" + telefono + "</td>" +
+                                "<td>" + licencia + "</td>" +
+                                "<td>" + vehiculo + "</td>" +
+                                "<td>" + direccion + "</td>" +
+                                "</tr>" +
+                                "</tbody>";
+                            $("#tabla").append(content);
+                        });
+                        iteration = 0;
+                    })
+                }
+            </script>
+
+        </table>
+    </div>
     <script>
         var nom = document.getElementById("nombreProfesor");
         var apell = document.getElementById("apellidoProfesor");
@@ -179,7 +242,7 @@
             });
             ref.child(key).child("Vehiculo").set({
                 nombre: selVeh.value,
-                idVehiculo: idsVehiculo[selAlum.selectedIndex]
+                idVehiculo: idsVehiculo[selVeh.selectedIndex]
             });
         }
 
