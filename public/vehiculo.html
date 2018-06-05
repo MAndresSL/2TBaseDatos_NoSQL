@@ -137,8 +137,6 @@
             selProf.innerHTML = "";
             var ref = firebase.database().ref().child("Profesores");
             var nombre;
-            var k = 5;
-
 
             ref.on('value', function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
@@ -151,7 +149,6 @@
                     var t = document.createTextNode(nombre);
                     content.appendChild(t);
                     console.log(content);
-                    k = k + 1;
                     //$("#setProfesores").append(content);
                     selProf.appendChild(content);
 
