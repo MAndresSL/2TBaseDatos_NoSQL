@@ -18,7 +18,7 @@
         crossorigin="anonymous">
 </head>
 
-<body onload = "loadAlumno()">
+<body onload = "loadAlumno(); loadTable()">
     <!--Begin NavBar-->
     <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" style="font-weight: 600" href="index.html">A U T O – E S C U E L A</a>
@@ -100,6 +100,51 @@
             </div>
         </div>
     </div>
+
+    <div class="container">
+            <table class="table" id="tabla">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">ID Matricula</th>
+                        <th scope="col">Alumno</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Costo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                        function loadTable() {
+                            document.getElementById("tabla").innerHTML = "";
+                            var ref = firebase.database().ref().child("Matricula");
+                            var IDmatricula;
+                            var alumno;
+                            var fecha;
+                            var costo;
+                            var iteration = 0;
+                            ref.on('value', function (snapshot) {
+                                snapshot.forEach(function (childSnapshot) {
+                                    iteration++;
+                                    IDmatricula = childSnapshot.child("matriculaID").val()
+                                    alumno = childSnapshot.child("alumno").val()
+                                    fecha = childSnapshot.child("fecha").val()
+                                    costo = childSnapshot.child("costo").val()
+                                    console.log(IDmatricula);
+                                    var content = "<tr><th scope='row'>" + iteration + "</th>" +
+                                        "<td>" + IDmatricula + "</td>" +
+                                        "<td>" + alumno + "</td>" +
+                                        "<td>" + fecha + "</td>" +
+                                        "<td>" + costo + "</td>" +
+                                        "</tr>";
+                                    $("#tabla").append(content);
+                                });
+    
+                            })
+                        }
+                    </script>
+                </tbody>
+            </table>
+        </div>
 
 
     <script>

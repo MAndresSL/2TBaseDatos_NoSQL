@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Matricula</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
+
+    <script src="config.js"></script>
+    <!--Style.css-->
+    <link rel="stylesheet" href="style.css">
+    <!--Bootsrap CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+</head>
+
+<body onload="loadTable()">
+    <!--Begin NavBar-->
+    <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" style="font-weight: 600" href="#">A U T O – E S C U E L A</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Agregar
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="alumno.html">Alumno</a>
+                        <a class="dropdown-item" href="matricula.html">Matricula</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">¿Qué va aquí?git </a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <!--End NavBar-->
+    <!--Begin Jumbotron-->
+    <div class="jumbotron">
+        <h1 class="display-4" style="font-weight: 800">Matricula</h1>
+        <p class="lead">Matricular alumno</p>
+        <hr class="my-4">
+        <div id="inputAdd">
+            <div class="row">
+                <div class="col-4">Alumno</div>
+                <div class="col-4">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" onclick="load()">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="setNombres" onclick="change">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Fecha</div>
+                <div class="col-4">
+                    <input type="text" id="fecha">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Costo</div>
+                <div class="col-4">
+                    <input type="text" id="costo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Tipo de licencia</div>
+                <div class="col-4">
+                    <input type="text" id="tipo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-outline-dark" onclick="submit()">AGREGAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table" id="tabla">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID Matricula</th>
+                    <th scope="col">Alumno</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Costo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <script>
+                    function loadTable() {
+                        //document.getElementById("setNombres").innerHTML = "";
+                        var ref = firebase.database().ref().child("Matricula");
+                        var IDmatricula;
+                        var alumno;
+                        var fecha;
+                        var costo;
+                        var iteration = 0;
+                        ref.on('value', function (snapshot) {
+                            snapshot.forEach(function (childSnapshot) {
+                                iteration++;
+                                IDmatricula = childSnapshot.child("matriculaID").val()
+                                alumno = childSnapshot.child("alumno").val()
+                                fecha = childSnapshot.child("fecha").val()
+                                costo = childSnapshot.child("costo").val()
+                                console.log(IDmatricula);
+                                var content = "<tr><th scope='row'>" + iteration + "</th>" +
+                                    "<td>" + IDmatricula + "</td>" +
+                                    "<td>" + alumno + "</td>" +
+                                    "<td>" + fecha + "</td>" +
+                                    "<td>" + costo + "</td>" +
+                                    "</tr>";
+                                $("#tabla").append(content);
+                            });
+
+                        })
+                    }
+                </script>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function change() {
+            var nombre = document.getElementById("cambio").value;
+            console.log("este es nombre: " + nombre);
+
+            document.getElementById("dropdownMenuButton").innerHTML = nombre;
+        }
+    </script>
+    <!--Carga los nombres al dropdown-->
+    <script>
+
+    </script>
+
+    <script>
+        var alumno = document.getElementById("dropdownMenuButton");
+        var fecha = document.getElementById("fecha");
+        var costo = document.getElementById("costo");
+        var tipo = document.getElementById("tipo");
+
+        function submit() {
+            var ref = firebase.database().ref().child("Matricula");
+            var key = ref.push().getKey();
+            console.log(key);
+
+            ref.child(key).set({
+                matriculaID: key,
+                alumno: alumno.value,
+                fecha: fecha.value,
+                costo: costo.value,
+                tipo_licencia: tipo,
+            });
+        }
+
+
+    </script>
+
+    <!--End Jumbotron-->
+
+    <!--Bootsrap-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
