@@ -18,7 +18,7 @@
         crossorigin="anonymous">
 </head>
 
-<body onload="loadProfesor()">
+<body onload="loadProfesor(); loadTable()">
     <!--Begin NavBar-->
     <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" style="font-weight: 600" href="index.html">A U T O – E S C U E L A</a>
@@ -107,6 +107,62 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <table class="table" id="tabla">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Profesor</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Lujo</th>
+                    <th scope="col">Tipo Licencia</th>
+                </tr>
+            </thead>
+            <script>
+                function loadTable() {
+
+                    var ref = firebase.database().ref().child("Vehiculos");
+                    var idVehiculo;
+                    var profesor;
+                    var marca;
+                    var modelo;
+                    var lujo;
+                    var tipo_licencia;
+                    var iteration = 0;
+
+                    ref.on('value', function (snapshot) {
+                        $("#tabla tbody tr").remove();
+                        snapshot.forEach(function (childSnapshot) {
+                            iteration++;
+                            idVeh = childSnapshot.child("idVehiculo").val();
+                            profesor = childSnapshot.child("Profesor").child("nombre").val();
+                            marca = childSnapshot.child("marca").val();
+                            modelo = childSnapshot.child("modelo").val();
+                            lujo = childSnapshot.child("lujo").val();
+                            tipo_licencia = childSnapshot.child("tipo_licencia").val();
+                            var content =
+                                "<tbody>" +
+                                "<tr><th scope='row'>" + iteration + "</th>" +
+                                "<td>" + idVeh + "</td>" +
+                                "<td>" + profesor + "</td>" +
+                                "<td>" + marca + "</td>" +
+                                "<td>" + modelo + "</td>" +
+                                "<td>" + lujo + "</td>" +
+                                "<td>" + tipo_licencia + "</td>" +
+                                "</tr>" +
+                                "</tbody>";
+                            $("#tabla").append(content);
+                        });
+                        iteration = 0;
+                    })
+                }
+            </script>
+
+        </table>
+    </div>
+
 
     <script>
         var marca = document.getElementById("marca");

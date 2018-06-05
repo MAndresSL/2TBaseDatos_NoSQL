@@ -88,7 +88,7 @@
             <div class="row">
                 <div class="col-4">Tipo de licencia</div>
                 <div class="col-4">
-                    <input type="text" id="tipo">
+                    <input type="text" id="tipo-licencia">
                 </div>
             </div>
             <div class="row">
@@ -126,7 +126,7 @@
                         $("#tabla tbody tr").remove();
                         snapshot.forEach(function (childSnapshot) {
                             iteration++;
-                            IDmatricula = childSnapshot.child("matriculaID").val();
+                            IDmatricula = childSnapshot.child("idMatricula").val();
                             alumno = childSnapshot.child("Alumno").child("nombre").val();
                             fecha = childSnapshot.child("fecha").val();
                             costo = childSnapshot.child("costo").val();
@@ -157,7 +157,8 @@
         var selAlum = document.getElementById("selectAlumnos");
         var fecha = document.getElementById("fecha");
         var costo = document.getElementById("costo");
-        var tipo = document.getElementById("tipo");
+        var tipo = document.getElementById("tipo-licencia");
+
 
         idsAlumno = [];
 
@@ -196,7 +197,7 @@
                 idMatricula: key,
                 fecha: fecha.value,
                 costo: costo.value,
-                tipo_licencia: tipo,
+                tipo_licencia: tipo.value,
             });
 
             ref.child(key).child("Alumno").set({

@@ -143,7 +143,7 @@
                         snapshot.forEach(function (childSnapshot) {
                             iteration++;
                             apellido = childSnapshot.child("apellido").val();
-                            clases = childSnapshot.child("clases_matriculadas").child("nombre").val();
+                            clases = childSnapshot.child("clases_matriculadas").val();
                             direccion = childSnapshot.child("direccion").val();
                             dni = childSnapshot.child("dni").val();
                             examenTeorico = childSnapshot.child("examen_teorico").val();
