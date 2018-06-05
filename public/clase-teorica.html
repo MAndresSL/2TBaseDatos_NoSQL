@@ -18,7 +18,7 @@
         crossorigin="anonymous">
 </head>
 
-<body onload="loadAlumno(); loadProfesor()">
+<body onload="loadAlumno(); loadProfesor(); loadTable()">
     <!--Begin NavBar-->
     <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" style="font-weight: 600" href="index.html">A U T O – E S C U E L A</a>
@@ -102,6 +102,57 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <table class="table" id="tabla">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Alumno</th>
+                    <th scope="col">Profesor</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Costo</th>
+                </tr>
+            </thead>
+            <script>
+                function loadTable() {
+
+                    var ref = firebase.database().ref().child("Clase Teorica");
+                    var idClaseTeorica;
+                    var alumno;
+                    var profesor;
+                    var fecha;
+                    var costo;
+                    var iteration = 0;
+
+                    ref.on('value', function (snapshot) {
+                        $("#tabla tbody tr").remove();
+                        snapshot.forEach(function (childSnapshot) {
+                            iteration++;
+                            idClaseTeorica = childSnapshot.child("idClaseTeorica").val();
+                            alumno = childSnapshot.child("Alumno").child("nombre").val();
+                            profesor = childSnapshot.child("Profesor").child("nombre").val();
+                            fecha = childSnapshot.child("fecha").val();
+                            costo = childSnapshot.child("costo_clase").val();
+                            var content =
+                                "<tbody>" +
+                                "<tr><th scope='row'>" + iteration + "</th>" +
+                                "<td>" + idClaseTeorica + "</td>" +
+                                "<td>" + alumno + "</td>" +
+                                "<td>" + profesor + "</td>" +
+                                "<td>" + fecha + "</td>" +
+                                "<td>" + costo + "</td>" +
+                                "</tr>" +
+                                "</tbody>";
+                            $("#tabla").append(content);
+                        });
+                        iteration = 0;
+                    })
+                }
+            </script>
+
+        </table>
+    </div>
 
     <script>
         var alum = document.getElementById("alumno");
@@ -175,8 +226,6 @@
             console.log(key);
 
             ref.child(key).set({
-                alumno: alum.value,
-                profesor: prof.value,
                 fecha: fecha.value,
                 costo_clase: cost.value,
                 idClaseTeorica: key
