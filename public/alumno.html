@@ -7,6 +7,7 @@
     <title>Alumno</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
 
@@ -62,7 +63,7 @@
     </nav>
     <!--End NavBar-->
     <!--Begin Jumbotron-->
-    <div class="jumbotron">
+    <div class="jumbotron" id="mainAdd">
         <h1 class="display-4" style="font-weight: 800">Alumno</h1>
         <p class="lead">Agregar Alumno</p>
         <hr class="my-4">
@@ -107,7 +108,8 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="jumbotron container" style="margin-top: 20px">
+        <h1 class="display-4 hidden" id="title">Alumno</h1>
         <table class="table" id="tabla">
             <thead>
                 <tr>
@@ -124,63 +126,188 @@
                 </tr>
             </thead>
             <script>
-                function loadTable() {
 
-                    var ref = firebase.database().ref().child("Alumnos");
-                    var apellido;
-                    var clases;
-                    var direccion;
-                    var dni;
-                    var examenTeorico;
-                    var idAlumno;
-                    var nombre;
-                    var numeroPagos;
-                    var telefono;
-                    var iteration = 0;
-
-                    ref.on('value', function (snapshot) {
-                        $("#tabla tbody tr").remove();
-                        snapshot.forEach(function (childSnapshot) {
-                            iteration++;
-                            apellido = childSnapshot.child("apellido").val();
-                            clases = childSnapshot.child("clases_matriculadas").val();
-                            direccion = childSnapshot.child("direccion").val();
-                            dni = childSnapshot.child("dni").val();
-                            examenTeorico = childSnapshot.child("examen_teorico").val();
-                            idAlumno = childSnapshot.child("idAlumno").val();
-                            nombre = childSnapshot.child("nombre").val();
-                            numeroPagos = childSnapshot.child("numero_pagos").val();
-                            telefono = childSnapshot.child("telefono").val();
-                            var content =
-                                "<tbody>" +
-                                "<tr><th scope='row'>" + iteration + "</th>" +
-                                "<td>" + idAlumno + "</td>" +
-                                "<td>" + nombre + "</td>" +
-                                "<td>" + apellido + "</td>" +
-                                "<td>" + dni + "</td>" +
-                                "<td>" + telefono + "</td>" +
-                                "<td>" + clases + "</td>" +
-                                "<td>" + numeroPagos + "</td>" +
-                                "<td>" + examenTeorico + "</td>" +
-                                "<td>" + direccion + "</td>" +
-                                "</tr>" +
-                                "</tbody>";
-                            $("#tabla").append(content);
-                        });
-                        iteration = 0;
-                    })
-                }
             </script>
 
         </table>
     </div>
 
+    <div class="hidden" id="mainMod" style="margin: 100px">
+        <p class="lead" style="font-weight:800">Modificar Alumno</p>
+        <hr class="my-4">
+        <div id="inputAdd">
+            <div class="row">
+                <div class="col-4">Nombre</div>
+                <div class="col-4">
+                    <input type="text" id="nombreMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Apellido</div>
+                <div class="col-4">
+                    <input type="text" id="apellidoMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">DNI</div>
+                <div class="col-4">
+                    <input type="text" id="dniMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Direccion</div>
+                <div class="col-4">
+                    <input type="text" id="direccionMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Telefono</div>
+                <div class="col-4">
+                    <input type="text" id="telefonoMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-outline-dark" onclick="showMain(); modify()">MODIFICAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+
+        var iteration = 0;
+        var tableElements = [];
+
+        function loadTable() {
+
+            var ref = firebase.database().ref().child("Alumnos");
+            var apellido;
+            var clases;
+            var direccion;
+            var dni;
+            var examenTeorico;
+            var idAlumno;
+            var nombre;
+            var numeroPagos;
+            var telefono;
+
+
+            ref.on('value', function (snapshot) {
+                $("#tabla tbody tr").remove();
+                tableElements = [];
+                var pos = 0;
+                snapshot.forEach(function (childSnapshot) {
+                    iteration++;
+                    apellido = childSnapshot.child("apellido").val();
+                    clases = childSnapshot.child("clases_matriculadas").val();
+                    direccion = childSnapshot.child("direccion").val();
+                    dni = childSnapshot.child("dni").val();
+                    examenTeorico = childSnapshot.child("examen_teorico").val();
+                    idAlumno = childSnapshot.child("idAlumno").val();
+                    nombre = childSnapshot.child("nombre").val();
+                    numeroPagos = childSnapshot.child("numero_pagos").val();
+                    telefono = childSnapshot.child("telefono").val();
+                    tableElements.push(childSnapshot);
+                    pos = iteration - 1;
+                    var content =
+                        "<tbody>" +
+                        "<tr><th scope='row'>" + iteration + "</th>" +
+                        "<td>" + idAlumno + "</td>" +
+                        "<td>" + nombre + "</td>" +
+                        "<td>" + apellido + "</td>" +
+                        "<td>" + dni + "</td>" +
+                        "<td>" + telefono + "</td>" +
+                        "<td>" + clases + "</td>" +
+                        "<td>" + numeroPagos + "</td>" +
+                        "<td>" + examenTeorico + "</td>" +
+                        "<td>" + direccion + "</td>" +
+                        "<td><button type='button' class='btn' onclick ='hideMain(); modItem(" + pos + ")'>" +
+                        "<i class='material-icons'>edit</i></button></td>" +
+                        "<td><button type='button' class='btn' onclick = 'deleteItem(" + pos + ")'>" +
+                        "<i style = 'font-size: 28px'class='material-icons'>delete_outline</i></button></td>" +
+                        "</tr>" +
+                        "</tbody>";
+                    $("#tabla").append(content);
+                });
+                iteration = 0;
+            })
+        }
+
+        function hideMain() {
+            document.getElementById("mainAdd").style.display = 'none';
+            document.getElementById("mainMod").style.display = 'block';
+            document.getElementById("title").style.display = 'block';
+
+        }
+
+        function showMain() {
+            document.getElementById("mainAdd").style.display = 'block';
+            document.getElementById("mainMod").style.display = 'none';
+            document.getElementById("title").style.display = 'none';
+
+        }
+
         var nom = document.getElementById("nombre");
         var apell = document.getElementById("apellido");
         var dni = document.getElementById("dni");
         var dir = document.getElementById("direccion");
         var tel = document.getElementById("telefono");
+
+        var nomMod = document.getElementById("nombreMod");
+        var apellMod = document.getElementById("apellidoMod");
+        var dniMod = document.getElementById("dniMod");
+        var dirMod = document.getElementById("direccionMod");
+        var telMod = document.getElementById("telefonoMod");
+
+        var idA;
+        var cur;
+
+        function modItem(x) {
+            idA = tableElements[x].child("idAlumno").val();
+            cur = x;
+            nomMod.value = tableElements[x].child('nombre').val();
+            apellMod.value = tableElements[x].child('apellido').val();
+            dniMod.value = tableElements[x].child('dni').val();
+            dirMod.value = tableElements[x].child('direccion').val();
+            telMod.value = tableElements[x].child('telefono').val();
+
+            console.log(idA);
+        }
+
+        function deleteItem(x) {
+            idA = tableElements[x].child("idAlumno").val();
+            var ref = firebase.database().ref().child("Alumnos").child(idA);
+
+            ref.remove();
+        }
+
+        function modify() {
+            var ref = firebase.database().ref().child("Alumnos");
+
+            var key = idA;
+            console.log(key);
+
+            var et = tableElements[cur].child("examen_teorico").val();
+            var np = tableElements[cur].child("numero_pagos").val();
+            var cm = tableElements[cur].child("clases_matriculadas").val();
+
+            console.log(et + np + cm);
+
+            ref.child(key).set({
+                nombre: nomMod.value,
+                apellido: apellMod.value,
+                dni: dniMod.value,
+                direccion: dirMod.value,
+                telefono: telMod.value,
+                idAlumno: key,
+                examen_teorico: et,
+                numero_pagos: np,
+                clases_matriculadas: cm
+            });
+        }
 
         function submit() {
             var ref = firebase.database().ref().child("Alumnos");
@@ -199,6 +326,12 @@
                 numero_pagos: 0,
                 clases_matriculadas: " "
             });
+
+            nom.value = "";
+            apell.value = "";
+            dni.value = "";
+            dir.value = "";
+            tel.value = "";
         }
 
 

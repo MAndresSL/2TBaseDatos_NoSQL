@@ -7,6 +7,7 @@
     <title>Pago</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
 
@@ -60,7 +61,7 @@
     </nav>
     <!--End NavBar-->
     <!--Begin Jumbotron-->
-    <div class="jumbotron">
+    <div class="jumbotron" id="mainAdd">
         <h1 class="display-4" style="font-weight: 800">Pago</h1>
         <p class="lead">Añadir Pago</p>
         <hr class="my-4">
@@ -93,7 +94,8 @@
 
         </div>
     </div>
-    <div class="container">
+    <div class="jumbotron container" style="margin-top: 20px">
+        <h1 class="display-4 hidden" id="title">Pagos</h1>
         <table class="table" id="tabla">
             <thead>
                 <tr>
@@ -213,7 +215,7 @@
             });
 
             ref.child(key).child("Matricula").set({
-                idMatricula:idsMatricula[selMa.selectedIndex],
+                idMatricula: idsMatricula[selMa.selectedIndex],
                 costo: costosMat[selMa.selectedIndex]
             });
         }

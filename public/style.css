@@ -25,5 +25,10 @@ h1 {
 #title {
     font-family: Montserrat;
     font-weight: 800;
-    margin: 30px
+    margin: 30px;
+    margin-bottom: 50px;
+}
+
+.jumbotron {
+    margin-top: 20px;
 }
