@@ -108,39 +108,76 @@
             </thead>
             <tbody>
                 <script>
-                    function loadTable() {
-                        //document.getElementById("setNombres").innerHTML = "";
-                        var ref = firebase.database().ref().child("Pagos");
-                        var idPago;
-                        var IDmatricula;
-                        var alumno;
-                        var iteration = 0;
-                        ref.on('value', function (snapshot) {
-                            $("#tabla tbody tr").remove();
-                            snapshot.forEach(function (childSnapshot) {
-                                iteration++;
-                                idPago = childSnapshot.child("idPago").val();
-                                IDmatricula = childSnapshot.child("Matricula").child("idMatricula").val();
-                                alumno = childSnapshot.child("Alumno").child("nombre").val();
-                                costo = childSnapshot.child("Matricula").child("costo").val();
-                                console.log(IDmatricula);
-                                var content = "<tr><th scope='row'>" + iteration + "</th>" +
-                                    "<td>" + idPago + "</td>" +
-                                    "<td>" + alumno + "</td>" +
-                                    "<td>" + IDmatricula + "</td>" +
-                                    "<td>" + costo + "</td>" +
-                                    "</tr>";
-                                $("#tabla").append(content);
-                            });
-                            iteration = 0;
-                        })
-                    }
+
                 </script>
             </tbody>
         </table>
     </div>
+    <div class="hidden" id="mainMod" style="margin: 100px">
+        <p class="lead">Añadir Pago</p>
+        <hr class="my-4">
+        <div id="inputAdd">
+            <div class="row">
+                <div class="col-4">Matricula</div>
+                <div class="col-4">
+                    <select class="custom-select" id="selectMatriculas2">
+                        <option selected>Eliga Matriucla</option>
+                    </select>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-4">Alumno</div>
+                <div class="col-4">
+                    <select class="custom-select" id="selectAlumnos2">
+                        <option selected>Eliga Alumno</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-outline-dark" onclick="showMain(); modify()">MODIFICAR</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <script>
+
+        var iteration = 0;
+        var tableElements = [];
+
+        function loadTable() {
+            //document.getElementById("setNombres").innerHTML = "";
+            var ref = firebase.database().ref().child("Pagos");
+            var idPago;
+            var IDmatricula;
+            var alumno;
+            var iteration = 0;
+            ref.on('value', function (snapshot) {
+                $("#tabla tbody tr").remove();
+                snapshot.forEach(function (childSnapshot) {
+                    iteration++;
+                    idPago = childSnapshot.child("idPago").val();
+                    IDmatricula = childSnapshot.child("Matricula").child("idMatricula").val();
+                    alumno = childSnapshot.child("Alumno").child("nombre").val();
+                    costo = childSnapshot.child("Matricula").child("costo").val();
+                    console.log(IDmatricula);
+                    var content = "<tr><th scope='row'>" + iteration + "</th>" +
+                        "<td>" + idPago + "</td>" +
+                        "<td>" + alumno + "</td>" +
+                        "<td>" + IDmatricula + "</td>" +
+                        "<td>" + costo + "</td>" +
+                        "</tr>";
+                    $("#tabla").append(content);
+                });
+                iteration = 0;
+            })
+        }
+
         var selAlum = document.getElementById("selectAlumnos");
         var selMa = document.getElementById("selectMatriculas");
 

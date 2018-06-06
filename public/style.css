@@ -29,6 +29,21 @@ h1 {
     margin-bottom: 50px;
 }
 
-.jumbotron {
+.jumbotron {
     margin-top: 20px;
+    margin: 30px
+}
+
+.card-title {
+    font-family: Monserrat bold;
+    font-size: 32px;
+}
+
+#contenido {
+    /* margin-right: 0px;*/
+    margin-right: 220px;
+}
+
+.btn btn-dark {
+    background: linear-gradient(to right, #c04848, #480048);
 }
