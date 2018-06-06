@@ -18,7 +18,7 @@
         crossorigin="anonymous">
 </head>
 
-<body onload="loadProfesor(); loadAlumno(); loadVehiculo()">
+<body onload="loadProfesor(); loadAlumno(); loadVehiculo(); loadTable()">
     <!--Begin NavBar-->
     <nav id="navBar" class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" style="font-weight: 600" href="index.html">A U T O – E S C U E L A</a>
@@ -141,56 +141,60 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">DNI</th>
-                    <th scope="col">Telefono</th>
-                    <th scope="col">N° Clases</th>
-                    <th scope="col">N° Pagos</th>
-                    <th scope="col">Examen Teorico</th>
-                    <th scope="col">Direccion</th>
+                    <th scope="col">Alumno</th>
+                    <th scope="col">Profesor</th>
+                    <th scope="col">Licencia</th>
+                    <th scope="col">Vehiculo</th>
+                    <th scope="col">Kilometraje</th>
+                    <th scope="col">Consumo</th>
+                    <th scope="col">Costo</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Horas</th>
                 </tr>
             </thead>
             <script>
                 function loadTable() {
 
-                    var ref = firebase.database().ref().child("Alumnos");
-                    var apellido;
-                    var clases;
-                    var direccion;
-                    var dni;
-                    var examenTeorico;
-                    var idAlumno;
-                    var nombre;
-                    var numeroPagos;
-                    var telefono;
+                    var ref = firebase.database().ref().child("Clase Practica");
+                    var alumno;
+                    var profesor;
+                    var vehiculo;
+                    var consumo;
+                    var costo;
+                    var fecha;
+                    var horas;
+                    var idClaseTeorica;
+                    var kilometraje;
+                    var licencia;
                     var iteration = 0;
 
                     ref.on('value', function (snapshot) {
                         $("#tabla tbody tr").remove();
                         snapshot.forEach(function (childSnapshot) {
                             iteration++;
-                            apellido = childSnapshot.child("apellido").val();
-                            clases = childSnapshot.child("clases_matriculadas").child("nombre").val();
-                            direccion = childSnapshot.child("direccion").val();
-                            dni = childSnapshot.child("dni").val();
-                            examenTeorico = childSnapshot.child("examen_teorico").val();
-                            idAlumno = childSnapshot.child("idAlumno").val();
-                            nombre = childSnapshot.child("nombre").val();
-                            numeroPagos = childSnapshot.child("numero_pagos").val();
-                            telefono = childSnapshot.child("telefono").val();
+                            alumno = childSnapshot.child("Alumno").child("nombre").val();
+                            profesor = childSnapshot.child("Profesor").child("nombre").val();
+                            vehiculo = childSnapshot.child("Vehiculo").child("nombre").val();
+                            consumo = childSnapshot.child("consumo").val();
+                            costo = childSnapshot.child("costo_clase").val();
+                            fecha = childSnapshot.child("fecha").val();
+                            horas = childSnapshot.child("horas").val();
+                            idClaseTeorica = childSnapshot.child("idClaseTeorica").val();
+                            kilometraje = childSnapshot.child("kilometraje").val();
+                            licencia = childSnapshot.child("licencia").val();
                             var content =
                                 "<tbody>" +
                                 "<tr><th scope='row'>" + iteration + "</th>" +
-                                "<td>" + idAlumno + "</td>" +
-                                "<td>" + nombre + "</td>" +
-                                "<td>" + apellido + "</td>" +
-                                "<td>" + dni + "</td>" +
-                                "<td>" + telefono + "</td>" +
-                                "<td>" + clases + "</td>" +
-                                "<td>" + numeroPagos + "</td>" +
-                                "<td>" + examenTeorico + "</td>" +
-                                "<td>" + direccion + "</td>" +
+                                "<td>" + idClaseTeorica + "</td>" +
+                                "<td>" + alumno + "</td>" +
+                                "<td>" + profesor + "</td>" +
+                                "<td>" + licencia + "</td>" +
+                                "<td>" + vehiculo + "</td>" +
+                                "<td>" + kilometraje + "</td>" +
+                                "<td>" + consumo + "</td>" +
+                                "<td>" + costo + "</td>" +
+                                "<td>" + fecha + "</td>" +
+                                "<td>" + horas + "</td>" +
                                 "</tr>" +
                                 "</tbody>";
                             $("#tabla").append(content);
