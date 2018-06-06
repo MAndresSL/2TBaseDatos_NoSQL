@@ -7,6 +7,7 @@
     <title>Examen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
 
@@ -60,7 +61,7 @@
     </nav>
     <!--End NavBar-->
     <!--Begin Jumbotron-->
-    <div class="jumbotron">
+    <div class="jumbotron" id="mainAdd">
         <h1 class="display-4" style="font-weight: 800">Examen</h1>
         <p class="lead">Agregar Examen</p>
         <hr class="my-4">
@@ -68,7 +69,7 @@
             <div class="row">
                 <div class="col-4">Fecha</div>
                 <div class="col-4">
-                    <input type="text" id="fecha" placeholder= "MM/DD/YYYY">
+                    <input type="text" id="fecha" placeholder="MM/DD/YYYY">
                 </div>
             </div>
             <div class="row">
@@ -122,62 +123,144 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="jumbotron container" style="margin-top: 20px">
+        <h1 class="display-4 hidden" id="title">Examen</h1>
         <table class="table" id="tabla">
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ID Matricula</th>
+                    <th scope="col">ID Examen</th>
                     <th scope="col">Alumno</th>
                     <th scope="col">Profesor</th>
                     <th scope="col">Vehiculo</th>
                     <th scope="col">Fecha</th>
+                    <th scope="col">Duracion</th>
                     <th scope="col">Tipo Licencia</th>
                     <th scope="col">Costo</th>
                 </tr>
             </thead>
             <tbody>
                 <script>
-                    function loadTable() {
-                        //document.getElementById("setNombres").innerHTML = "";
-                        var ref = firebase.database().ref().child("Examen");
-                        var IDmatricula;
-                        var alumno;
-                        var fecha;
-                        var costo;
-                        var vehi;
-                        var profe;
-                        var iteration = 0;
-                        ref.on('value', function (snapshot) {
-                            $("#tabla tbody tr").remove();
-                            snapshot.forEach(function (childSnapshot) {
-                                iteration++;
-                                IDmatricula = childSnapshot.child("matriculaID").val()
-                                alumno = childSnapshot.child("alumno").val()
-                                fecha = childSnapshot.child("fecha").val()
-                                costo = childSnapshot.child("costo").val()
-                                profe = childSnapshot.child("profesor").val()
-                                vehi = childSnapshot.child("vehiculo").val()
-                                console.log(IDmatricula);
-                                var content = "<tr><th scope='row'>" + iteration + "</th>" +
-                                    "<td>" + IDmatricula + "</td>" +
-                                    "<td>" + alumno + "</td>" +
-                                    "<td>" + fecha + "</td>" +
-                                    "<td>" + costo + "</td>" +
-                                    "<td>" + vehi + "</td>" +
-                                    "<td>" + profe + "</td>" +
-                                    "</tr>";
-                                $("#tabla").append(content);
-                            });
-                            iteration = 0;
-                        })
-                    }
+
                 </script>
             </tbody>
         </table>
     </div>
-
+    <div class="hidden" id="mainMod" style="margin: 100px">
+        <p class="lead">Modificar Examen</p>
+        <hr class="my-4">
+        <div id="inputAdd">
+            <div class="row">
+                <div class="col-4">Fecha</div>
+                <div class="col-4">
+                    <input type="text" id="fechaMod" placeholder="MM/DD/YYYY">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Tipo de Licenecia</div>
+                <div class="col-4">
+                    <input type="text" id="licenciaMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Alumno</div>
+                <div class="col-4">
+                    <select class="custom-select" id="selectAlumnos2">
+                        <option selected>Eliga Alumno</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Profesor</div>
+                <div class="col-4">
+                    <select class="custom-select" id="selectProfesores2">
+                        <option selected>Eliga Profesor</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Vehiculo</div>
+                <div class="col-4">
+                    <select class="custom-select" id="selectVehiculos2">
+                        <option selected>Eliga Vehiculo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Duracion</div>
+                <div class="col-4">
+                    <input type="text" id="duracionMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Coste</div>
+                <div class="col-4">
+                    <input type="text" id="costeMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-outline-dark" onclick="showMain(); modify()">MODIFICAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
+        var iteration = 0;
+        var tableElements = [];
+
+        function loadTable() {
+            //document.getElementById("setNombres").innerHTML = "";
+            var ref = firebase.database().ref().child("Examen");
+            var ID;
+            var alumno;
+            var fecha;
+            var costo;
+            var dura;
+            var vehi;
+            var profe;
+            ref.on('value', function (snapshot) {
+                $("#tabla tbody tr").remove();
+                tableElements = [];
+                pos = 0;
+                snapshot.forEach(function (childSnapshot) {
+                    iteration++;
+                    ID = childSnapshot.child("idExamen").val()
+                    alumno = childSnapshot.child("Alumno").child("nombre").val()
+                    fecha = childSnapshot.child("fecha").val()
+                    dura = childSnapshot.child("duracion").val();
+                    costo = childSnapshot.child("coste").val();
+                    profe = childSnapshot.child("Profesor").child("nombre").val();
+                    vehi = childSnapshot.child("Vehiculo").child("nombre").val();
+                    lic = childSnapshot.child("licencia").child("nombre").val();
+
+                    tableElements.push(childSnapshot);
+                    pos = iteration - 1;
+
+                    var content =
+                        "<tbody>" + "<tr><th scope='row'>" + iteration + "</th>" +
+                        "<td>" + ID + "</td>" +
+                        "<td>" + alumno + "</td>" +
+                        "<td>" + profe + "</td>" +
+                        "<td>" + vehi + "</td>" +
+                        "<td>" + fecha + "</td>" +
+                        "<td>" + dura + "</td>" +
+                        "<td>" + lic + "</td>" +
+                        "<td>" + costo + "</td>" +
+
+                        "<td><button type='button' class='btn' onclick ='loadProfesor2(); loadAlumno2(); loadVehiculo2(); hideMain(); modItem(" + pos + ")'>" +
+                        "<i class='material-icons'>edit</i></button></td>" +
+                        "<td><button type='button' class='btn' onclick = 'deleteItem(" + pos + ")'>" +
+                        "<i style = 'font-size: 28px'class='material-icons'>delete_outline</i></button></td>" +
+                        "</tr>" +
+                        "</tbody>";;
+                    $("#tabla").append(content);
+                });
+                iteration = 0;
+            })
+        }
         var fec = document.getElementById("fecha");
         var lic = document.getElementById("licencia");
         var dura = document.getElementById("duracion");
@@ -185,6 +268,14 @@
         var selProf = document.getElementById("selectProfesores");
         var selAlum = document.getElementById("selectAlumnos");
         var selVeh = document.getElementById("selectVehiculos");
+
+        var fecMod = document.getElementById("fechaMod");
+        var licMod = document.getElementById("licenciaMod");
+        var duraMod = document.getElementById("duracionMod");
+        var costMod = document.getElementById("costeMod");
+        var selProf2 = document.getElementById("selectProfesores2");
+        var selAlum2 = document.getElementById("selectAlumnos2");
+        var selVeh2 = document.getElementById("selectVehiculos2");
 
         var nombres = [];
         var idsProfesor = [];
@@ -210,6 +301,33 @@
                     console.log(content);
                     //$("#setProfesores").append(content);
                     selProf.appendChild(content);
+                });
+
+            })
+            console.log(nombres);
+            console.log(idsProfesor);
+
+        }
+
+        function loadProfesor2() {
+            selProf2.innerHTML = "";
+            var ref = firebase.database().ref().child("Profesores");
+            var nombre;
+
+            ref.on('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    nombre = childSnapshot.child("nombre").val();
+                    apell = childSnapshot.child("apellido").val();
+                    idProf = childSnapshot.child("idProfesor").val();
+                    nombres.push(nombre);
+                    idsProfesor.push(idProf);
+                    var content = document.createElement("option");
+                    // var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    var t = document.createTextNode(nombre + " " + apell);
+                    content.appendChild(t);
+                    console.log(content);
+                    //$("#setProfesores").append(content);
+                    selProf2.appendChild(content);
                 });
 
             })
@@ -244,6 +362,32 @@
             console.log(idsAlumno);
         }
 
+        function loadAlumno2() {
+            selAlum2.innerHTML = "";
+            var ref = firebase.database().ref().child("Alumnos");
+            var nombre;
+
+            ref.on('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    nombre = childSnapshot.child("nombre").val();
+                    apell = childSnapshot.child("apellido").val();
+                    idAlum = childSnapshot.child("idAlumno").val();
+                    //nombres.push(nombre);
+                    idsAlumno.push(idAlum);
+                    var content = document.createElement("option");
+                    // var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    var t = document.createTextNode(nombre + " " + apell);
+                    content.appendChild(t);
+                    console.log(content);
+                    //$("#setProfesores").append(content);
+                    selAlum2.appendChild(content);
+
+                });
+
+            })
+            console.log(idsAlumno);
+        }
+
         function loadVehiculo() {
             selVeh.innerHTML = "";
             var ref = firebase.database().ref().child("Vehiculos");
@@ -270,6 +414,95 @@
             console.log(idsVehiculo);
         }
 
+        function loadVehiculo2() {
+            selVeh2.innerHTML = "";
+            var ref = firebase.database().ref().child("Vehiculos");
+            var nombre;
+
+            ref.on('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    marca = childSnapshot.child("marca").val();
+                    modelo = childSnapshot.child("modelo").val();
+                    idVeh = childSnapshot.child("idVehiculo").val();
+                    //nombres.push(nombre);
+                    idsVehiculo.push(idVeh);
+                    var content = document.createElement("option");
+                    // var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    var t = document.createTextNode(marca + " " + modelo);
+                    content.appendChild(t);
+                    console.log(content);
+                    //$("#setProfesores").append(content);
+                    selVeh2.appendChild(content);
+
+                });
+
+            })
+            console.log(idsVehiculo);
+        }
+
+        function hideMain() {
+            document.getElementById("mainAdd").style.display = 'none';
+            document.getElementById("mainMod").style.display = 'block';
+            document.getElementById("title").style.display = 'block';
+
+        }
+
+        function showMain() {
+            document.getElementById("mainAdd").style.display = 'block';
+            document.getElementById("mainMod").style.display = 'none';
+            document.getElementById("title").style.display = 'none';
+
+        }
+
+        var idE;
+
+        function modItem(x) {
+            idE = tableElements[x].child("idExamen").val();
+            fechaMod.value = tableElements[x].child('fecha').val();
+            costeMod.value = tableElements[x].child('coste').val();
+            licenciaMod.value = tableElements[x].child('licencia').val();
+            duracionMod.value = tableElements[x].child('duracion').val();
+
+            console.log(idE);
+        }
+
+        function deleteItem(x) {
+            idE = tableElements[x].child("idExamen").val();
+            var ref = firebase.database().ref().child("Examen").child(idE);
+
+            ref.remove();
+        }
+
+        function modify() {
+            var ref = firebase.database().ref().child("Examen");
+
+            var key = idE;
+            console.log(key);
+
+            ref.child(key).set({
+                fecha: fecMod.value,
+                licencia: licMod.value,
+                duracion: duraMod.value,
+                coste: costMod.value,
+                idExamen: key
+            });
+
+            ref.child(key).child("Profesor").set({
+                nombre: selProf2.value,
+                idProfesor: idsProfesor[selProf2.selectedIndex]
+
+            });
+
+            ref.child(key).child("Alumno").set({
+                nombre: selAlum2.value,
+                idAlumno: idsAlumno[selAlum2.selectedIndex]
+            });
+
+            ref.child(key).child("Vehiculo").set({
+                nombre: selVeh2.value,
+                idVehiculo: idsVehiculo[selAlum2.selectedIndex]
+            });
+        }
         function submit() {
             var ref = firebase.database().ref().child("Examen");
 
@@ -281,10 +514,42 @@
                 licencia: lic.value,
                 duracion: dura.value,
                 coste: cost.value,
-                llave: key
+                idExamen: key
             });
 
-            ref.child(key).child("Profesores").set({
+            ref.child(key).child("Profesor").set({
+                nombre: selProf.value,
+                idProfesor: idsProfesor[selProf.selectedIndex]
+
+            });
+
+            ref.child(key).child("Alumno").set({
+                nombre: selAlum.value,
+                idAlumno: idsAlumno[selAlum.selectedIndex]
+            });
+
+            ref.child(key).child("Vehiculo").set({
+                nombre: selVeh.value,
+                idVehiculo: idsVehiculo[selAlum.selectedIndex]
+            });
+        }
+
+
+        function submit() {
+            var ref = firebase.database().ref().child("Examen");
+
+            var key = ref.push().getKey();
+            console.log(key);
+
+            ref.child(key).set({
+                fecha: fec.value,
+                licencia: lic.value,
+                duracion: dura.value,
+                coste: cost.value,
+                idExamen: key
+            });
+
+            ref.child(key).child("Profesor").set({
                 nombre: selProf.value,
                 idProfesor: idsProfesor[selProf.selectedIndex]
 

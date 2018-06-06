@@ -7,6 +7,7 @@
     <title>Matricula</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
 
@@ -60,7 +61,7 @@
     </nav>
     <!--End NavBar-->
     <!--Begin Jumbotron-->
-    <div class="jumbotron">
+    <div class="jumbotron" id="mainAdd">
         <h1 class="display-4" style="font-weight: 800">Matricula</h1>
         <p class="lead">Matricular alumno</p>
         <hr class="my-4">
@@ -101,7 +102,8 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="jumbotron container" style="margin-top: 20px">
+        <h1 class="display-4 hidden" id="title">Matricula</h1>
         <table class="table" id="tabla">
             <thead>
                 <tr>
@@ -110,55 +112,110 @@
                     <th scope="col">Alumno</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Costo</th>
+                    <th scope="col">Tipo Licencia</th>
                 </tr>
             </thead>
             <script>
-                function loadTable() {
 
-                    var ref = firebase.database().ref().child("Matricula");
-                    var IDmatricula;
-                    var alumno;
-                    var fecha;
-                    var costo;
-                    var iteration = 0;
-
-                    ref.on('value', function (snapshot) {
-                        $("#tabla tbody tr").remove();
-                        snapshot.forEach(function (childSnapshot) {
-                            iteration++;
-                            IDmatricula = childSnapshot.child("idMatricula").val();
-                            alumno = childSnapshot.child("Alumno").child("nombre").val();
-                            fecha = childSnapshot.child("fecha").val();
-                            costo = childSnapshot.child("costo").val();
-                            console.log(IDmatricula);
-                            var content =
-                                "<tbody>" +
-                                "<tr><th scope='row'>" + iteration + "</th>" +
-                                "<td>" + IDmatricula + "</td>" +
-                                "<td>" + alumno + "</td>" +
-                                "<td>" + fecha + "</td>" +
-                                "<td>" + costo + "</td>" +
-                                "</tr>" +
-                                "</tbody>";
-                            $("#tabla").append(content);
-                        });
-                        console.log("Me sali");
-                        iteration = 0;
-                    })
-                    console.log("Me sali 2");
-                }
             </script>
 
         </table>
     </div>
-
+    <div class="hidden" id="mainMod" style="margin: 100px">
+        <p class="lead">Modificar Matricula</p>
+        <hr class="my-4">
+        <div id="inputAdd">
+            <div class="row">
+                <div class="col-4">Alumno</div>
+                <div class="col-4">
+                    <select class="custom-select" id="selectAlumnos2">
+                        <option selected>Eliga Alumno</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Fecha</div>
+                <div class="col-4">
+                    <input type="text" id="fechaMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Costo</div>
+                <div class="col-4">
+                    <input type="text" id="costoMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Tipo de licencia</div>
+                <div class="col-4">
+                    <input type="text" id="tipo_licenciaMod">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-outline-dark" onclick="showMain(); modify()">MODIFICAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
+        var iteration = 0;
+        var tableElements = [];
+        function loadTable() {
+
+            var ref = firebase.database().ref().child("Matricula");
+            var IDmatricula;
+            var alumno;
+            var tipo;
+            var fecha;
+            var costo;
+
+            ref.on('value', function (snapshot) {
+                $("#tabla tbody tr").remove();
+                snapshot.forEach(function (childSnapshot) {
+                    iteration++;
+                    IDmatricula = childSnapshot.child("idMatricula").val();
+                    alumno = childSnapshot.child("Alumno").child("nombre").val();
+                    fecha = childSnapshot.child("fecha").val();
+                    costo = childSnapshot.child("costo").val();
+                    tipo = childSnapshot.child("tipo_licencia").val();
+                    console.log(IDmatricula);
+
+                    tableElements.push(childSnapshot);
+                    pos = iteration - 1;
+                    var content =
+                        "<tbody>" +
+                        "<tr><th scope='row'>" + iteration + "</th>" +
+                        "<td>" + IDmatricula + "</td>" +
+                        "<td>" + alumno + "</td>" +
+                        "<td>" + fecha + "</td>" +
+                        "<td>" + costo + "</td>" +
+                        "<td>" + tipo + "</td>" +
+                        "<td><button type='button' class='btn' onclick ='loadAlumno2(); hideMain(); modItem(" + pos + ")'>" +
+                        "<i class='material-icons'>edit</i></button></td>" +
+                        "<td><button type='button' class='btn' onclick = 'deleteItem(" + pos + ")'>" +
+                        "<i style = 'font-size: 28px'class='material-icons'>delete_outline</i></button></td>" +
+                        "</tr>" +
+                        "</tbody>";
+                    $("#tabla").append(content);
+                });
+                console.log("Me sali");
+                iteration = 0;
+            })
+            console.log("Me sali 2");
+        }
         var selAlum = document.getElementById("selectAlumnos");
         var fecha = document.getElementById("fecha");
         var costo = document.getElementById("costo");
         var tipo = document.getElementById("tipo-licencia");
 
+        var selAlum2 = document.getElementById("selectAlumnos2");
+        var fechaMod = document.getElementById("fechaMod");
+        var costoMod = document.getElementById("costoMod");
+        var tipoMod = document.getElementById("tipo_licenciaMod");
 
         idsAlumno = [];
 
@@ -188,16 +245,93 @@
             console.log(idsAlumno);
         }
 
-        function submit() {
+        function loadAlumno2() {
+            selAlum2.innerHTML = "";
+            var ref = firebase.database().ref().child("Alumnos");
+            var nombre;
+
+            ref.on('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    nombre = childSnapshot.child("nombre").val();
+                    apell = childSnapshot.child("apellido").val();
+                    idAlum = childSnapshot.child("idAlumno").val();
+                    //nombres.push(nombre);
+                    idsAlumno.push(idAlum);
+                    var content = document.createElement("option");
+                    // var content = "<option value='" + k + "'>" + nombre + "</option>";
+                    var t = document.createTextNode(nombre + " " + apell);
+                    content.appendChild(t);
+                    console.log(content);
+                    //$("#setProfesores").append(content);
+                    selAlum2.appendChild(content);
+
+                });
+
+            })
+            console.log(idsAlumno);
+        }
+
+        function hideMain() {
+            document.getElementById("mainAdd").style.display = 'none';
+            document.getElementById("mainMod").style.display = 'block';
+            document.getElementById("title").style.display = 'block';
+
+        }
+
+        function showMain() {
+            document.getElementById("mainAdd").style.display = 'block';
+            document.getElementById("mainMod").style.display = 'none';
+            document.getElementById("title").style.display = 'none';
+
+        }
+
+        var idM;
+
+        function modItem(x) {
+            idM = tableElements[x].child("idMatricula").val();
+            fechaMod.value = tableElements[x].child('fecha').val();
+            costoMod.value = tableElements[x].child('costo').val();
+            tipoMod.value = tableElements[x].child('tipo_licencia').val();
+
+            console.log(idM);
+        }
+
+        function deleteItem(x) {
+            idM = tableElements[x].child("idMatricula").val();
+            var ref = firebase.database().ref().child("Matricula").child(idM);
+
+            ref.remove();
+        }
+
+        function modify() {
             var ref = firebase.database().ref().child("Matricula");
-            var key = ref.push().getKey();
+            var key = idM;
             console.log(key);
 
             ref.child(key).set({
                 idMatricula: key,
+                fecha: fechaMod.value,
+                costo: costoMod.value,
+                tipo_licencia: tipoMod.value,
+            });
+
+            ref.child(key).child("Alumno").set({
+                nombre: selAlum2.value,
+                idAlumno: idsAlumno[selAlum2.selectedIndex]
+            });
+
+        }
+
+        function submit() {
+            var ref = firebase.database().ref().child("Matricula");
+            var key = ref.push().getKey();
+            console.log(tipo.value);
+
+            ref.child(key).set({
+                idMatricula: key,
                 fecha: fecha.value,
-                costo: costo.value,
-                tipo_licencia: tipo.value,
+                "tipo_licencia": tipo.value,
+                costo: costo.value
             });
 
             ref.child(key).child("Alumno").set({
