@@ -27,3 +27,16 @@ h1 {
     font-weight: 800;
     margin: 30px
 }
+
+.card-title{
+    font-family: Monserrat bold;
+    font-size: 32px;
+}
+#contenido{
+   /* margin-right: 0px;*/
+   margin-right: 220px;
+}
+
+.btn btn-dark{
+    background: linear-gradient(to right, #c04848, #480048);
+}
