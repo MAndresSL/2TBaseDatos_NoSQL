@@ -2,6 +2,10 @@
     background: linear-gradient(to right, #c04848, #480048);
 }
 
+#navBar li {
+    margin: 20px;
+}
+
 .row {
     margin: 40px;
 }
@@ -31,15 +35,46 @@ h1 {
 
 
 .card-title {
-    font-family: Monserrat bold;
-    font-size: 32px;
+    font-family: Montserrat bold;
+    font-size: 40px;
+
+}
+
+.card {
+    width: 30rem;
 }
 
 #contenido {
     /* margin-right: 0px;*/
     margin-right: 220px;
+    font-family: Montserrat;
 }
 
 .btn btn-dark {
     background: linear-gradient(to right, #c04848, #480048);
 }
+
+h5 {
+    font-family: Montserrat;
+}
+
+.demo-card-wide.mdl-card {
+    background-color: linear-gradient(to right, #c04848, #480048);
+    width: 512px;
+  }
+  .demo-card-wide > .mdl-card__title {
+    color: #fff;
+    height: 176px;
+    background: linear-gradient(to right, #c04848, #480048);
+
+   --background: url('https://getmdl.io/assets/demos/welcome_card.jpg') center / cover;
+  }
+  .demo-card-wide > .mdl-card__menu {
+    color: #fff;
+  }
+  
+  body {
+    --padding: 20px;
+    background: #fafafa;
+    position: relative;
+  }
