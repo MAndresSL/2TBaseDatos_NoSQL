@@ -1,5 +1,4 @@
-
-#navBar{
+#navBar {
     background: linear-gradient(to right, #c04848, #480048);
 }
 
@@ -17,4 +16,14 @@
 
 h1 {
     font-weight: 800;
+}
+
+.hidden {
+    display: none;
+}
+
+#title {
+    font-family: Montserrat;
+    font-weight: 800;
+    margin: 30px
 }
