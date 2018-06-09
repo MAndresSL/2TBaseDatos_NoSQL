@@ -195,7 +195,7 @@
         idsMatricula = [];
         costosMat = [];
 
-         function hideMain() {
+        function hideMain() {
             document.getElementById("mainAdd").style.display = 'none';
             document.getElementById("mainMod").style.display = 'block';
             document.getElementById("title").style.display = 'block';
@@ -287,6 +287,8 @@
             console.log(idsMatricula);
         }
 
+
+
         function loadMatricula2() {
             selMa2.innerHTML = "";
             var ref = firebase.database().ref().child("Matricula");
@@ -312,8 +314,7 @@
             })
             console.log(idsMatricula);
         }
-
-         var idP;
+        var idP;
         var cur;
 
         function modItem(x) {
